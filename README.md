@@ -76,11 +76,13 @@ python manage.py Migrate
 
 **5)** Create an admin (superuser)
 In the same terminal, 
+
 python manage.py createsuperuser
 
 
-*6)** Run
-In the same terminal,
+**6)** Run
+In the same terminal, 
+
 python manage.py runserver
 
 #### http://127.0.0.1:8000/
