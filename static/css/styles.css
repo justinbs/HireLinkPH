@@ -1,0 +1,25 @@
+:root{
+  --brand:#2563eb;        /* primary */
+  --brand-600:#1d4ed8;
+  --ink:#0f172a;          /* headings */
+  --muted:#64748b;        /* secondary text */
+  --bg:#f6f7fb;           /* page background */
+  --card:#ffffff;         /* cards */
+  --radius:14px;
+  --shadow:0 10px 25px rgba(2,6,23,.06);
+}
+
+body{ background:var(--bg); color:#111827; }
+.navbar-brand{ font-weight:700; letter-spacing:.2px; }
+.btn-primary{ background:var(--brand); border-color:var(--brand); }
+.btn-primary:hover{ background:var(--brand-600); border-color:var(--brand-600); }
+.card{ border:0; border-radius:var(--radius); box-shadow:var(--shadow); }
+.badge.bg-primary{ background:var(--brand)!important; }
+.form-control, .form-select{ border-radius:10px; }
+.hero{
+  background: radial-gradient(1200px 500px at 20% -10%, #dbeafe, transparent),
+              radial-gradient(1200px 500px at 80% 120%, #fce7f3, transparent);
+  border-radius:var(--radius);
+}
+footer small{ color:var(--muted); }
+.toast-container{ z-index:1080; }

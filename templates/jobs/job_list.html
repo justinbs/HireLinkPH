@@ -1,32 +1,38 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
-  <h3 class="mb-0">My Job Posts</h3>
+  <h3 class="mb-0"><i class="bi bi-list-task text-primary me-2"></i>My Job Posts</h3>
   <div>
-    <a class="btn btn-outline-secondary me-2" href="{% url 'jobs:employer_org' %}">Organization</a>
-    <a class="btn btn-primary" href="{% url 'jobs:job_create' %}">New Job</a>
+    <a class="btn btn-outline-secondary me-2" href="{% url 'jobs:employer_org' %}"><i class="bi bi-building me-1"></i>Organization</a>
+    <a class="btn btn-primary" href="{% url 'jobs:job_create' %}"><i class="bi bi-plus-circle me-1"></i>New Job</a>
   </div>
 </div>
 
+<p class="text-muted mb-2">Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} jobs</p>
+
 <table class="table table-striped bg-white shadow-sm">
-  <thead><tr><th>Title</th><th>Location</th><th>Setup</th><th>Schedule</th><th>Status</th><th></th></tr></thead>
+  <thead><tr><th>Title</th><th>Location</th><th>Setup</th><th>Schedule</th><th>Status</th><th class="text-end"></th></tr></thead>
   <tbody>
-    {% for j in jobs %}
+    {% for j in page_obj.object_list %}
       <tr>
         <td><a href="{% url 'jobs:job_detail' j.id %}">{{ j.title }}</a></td>
         <td>{{ j.location_city }}</td>
         <td class="text-capitalize">{{ j.work_setup }}</td>
         <td class="text-capitalize">{{ j.schedule }}</td>
-        <td class="text-capitalize">{{ j.job_status }}</td>
-        <td class="text-nowrap">
-          <a class="btn btn-sm btn-outline-secondary" href="{% url 'jobs:job_skills' j.id %}">Skills</a>
-          <a class="btn btn-sm btn-outline-primary" href="{% url 'jobs:job_edit' j.id %}">Edit</a>
-          <a class="btn btn-sm btn-outline-danger" href="{% url 'jobs:job_delete' j.id %}">Delete</a>
+        <td><span class="badge text-bg-light text-capitalize">{{ j.job_status }}</span></td>
+        <td class="text-end text-nowrap">
+          <a class="btn btn-sm btn-outline-success" href="{% url 'matching:candidates_for_job' j.id %}"><i class="bi bi-people"></i></a>
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'jobs:job_skills' j.id %}"><i class="bi bi-wrench"></i></a>
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'jobs:job_edit' j.id %}"><i class="bi bi-pencil"></i></a>
+          <a class="btn btn-sm btn-outline-danger" href="{% url 'jobs:job_delete' j.id %}"><i class="bi bi-trash"></i></a>
         </td>
       </tr>
     {% empty %}
-      <tr><td colspan="6" class="text-muted">No jobs yet.</td></tr>
+      <tr><td colspan="6" class="text-muted">No jobs yet. Click <strong>New Job</strong> to create one.</td></tr>
     {% endfor %}
   </tbody>
 </table>
+
+{% include "_pagination.html" with page_obj=page_obj %}
 {% endblock %}

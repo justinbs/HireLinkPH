@@ -9,6 +9,10 @@ urlpatterns = [
     path("employer/jobs/<int:pk>/delete/", views.job_delete_view, name="job_delete"),
     path("employer/jobs/<int:pk>/skills/", views.job_skills_view, name="job_skills"),
 
-    # public-ish views (simple for now)
+    # public-ish
     path("jobs/<int:pk>/", views.job_detail_view, name="job_detail"),
+
+    # seeker actions
+    path("apply/<int:pk>/", views.apply_job_view, name="apply"),
+    path("applications/", views.seeker_applications_view, name="applications"),
 ]

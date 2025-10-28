@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h3 class="mb-3">Seeker Dashboard</h3>
-<p class="text-muted">Welcome, {{ user.first_name|default:user.username }}.</p>
+<h3 class="mb-3"><i class="bi bi-person-workspace text-primary me-2"></i>Seeker Dashboard</h3>
 <div class="list-group">
-  <a class="list-group-item list-group-item-action" href="{% url 'profiles:edit' %}">Edit Seeker Profile</a>
-  <a class="list-group-item list-group-item-action" href="{% url 'profiles:skills' %}">Manage My Skills</a>
-  <a class="list-group-item list-group-item-action" href="#">View Recommendations (coming in Sprint 4)</a>
+  <a class="list-group-item list-group-item-action" href="{% url 'profiles:edit' %}"><i class="bi bi-pencil-square me-2"></i>Edit Seeker Profile</a>
+  <a class="list-group-item list-group-item-action" href="{% url 'profiles:skills' %}"><i class="bi bi-wrench-adjustable-circle me-2"></i>Manage My Skills</a>
+  <a class="list-group-item list-group-item-action" href="{% url 'matching:recommendations' %}"><i class="bi bi-stars me-2"></i>View Recommendations</a>
+  <a class="list-group-item list-group-item-action" href="{% url 'jobs:applications' %}"><i class="bi bi-inbox me-2"></i>My Applications</a>
 </div>
 {% endblock %}

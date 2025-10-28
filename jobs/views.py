@@ -1,8 +1,10 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from .models import EmployerOrganization, Job, JobSkill
+from .models import EmployerOrganization, Job, JobSkill, Application
 from .forms import EmployerOrgForm, JobForm, JobSkillForm
+from profiles.models import SeekerProfile
+from django.core.paginator import Paginator
 
 def _get_or_create_employer(user):
     org, _ = EmployerOrganization.objects.get_or_create(user=user, defaults={
@@ -35,8 +37,13 @@ def job_list_view(request):
         return redirect("accounts:dashboard")
 
     org = _get_or_create_employer(request.user)
-    jobs = Job.objects.filter(employer=org).order_by("-job_created_at")
-    return render(request, "jobs/job_list.html", {"org": org, "jobs": jobs})
+    jobs_qs = Job.objects.filter(employer=org).order_by("-job_created_at")
+
+    paginator = Paginator(jobs_qs, 10)  # 10 per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "jobs/job_list.html", {"org": org, "page_obj": page_obj})
 
 @login_required
 def job_create_view(request):
@@ -119,4 +126,38 @@ def job_skills_view(request, pk:int):
 def job_detail_view(request, pk:int):
     job = get_object_or_404(Job.objects.select_related("employer"), pk=pk)
     reqs = JobSkill.objects.filter(job=job).select_related("skill")
-    return render(request, "jobs/job_detail.html", {"job": job, "reqs": reqs})
+
+    already_applied = False
+    if request.user.is_authenticated and getattr(request.user, "role", "") == "seeker":
+        seeker, _ = SeekerProfile.objects.get_or_create(user=request.user)
+        already_applied = Application.objects.filter(job=job, seeker=seeker).exists()
+
+    return render(request, "jobs/job_detail.html", {"job": job, "reqs": reqs, "already_applied": already_applied})
+
+@login_required
+def apply_job_view(request, pk:int):
+    if request.user.role != "seeker":
+        messages.error(request, "Only Job Seekers can apply.")
+        return redirect("accounts:dashboard")
+
+    job = get_object_or_404(Job, pk=pk, job_status="open")
+    seeker, _ = SeekerProfile.objects.get_or_create(user=request.user)
+
+    exists = Application.objects.filter(job=job, seeker=seeker).exists()
+    if exists:
+        messages.info(request, "You already applied to this job.")
+        return redirect("jobs:job_detail", pk=pk)
+
+    Application.objects.create(job=job, seeker=seeker, application_status="submitted")
+    messages.success(request, "Application submitted.")
+    return redirect("jobs:job_detail", pk=pk)
+
+@login_required
+def seeker_applications_view(request):
+    if request.user.role != "seeker":
+        messages.error(request, "Only Job Seekers can view applications.")
+        return redirect("accounts:dashboard")
+
+    seeker, _ = SeekerProfile.objects.get_or_create(user=request.user)
+    apps = Application.objects.filter(seeker=seeker).select_related("job", "job__employer").order_by("-applied_at")
+    return render(request, "jobs/applications.html", {"apps": apps})

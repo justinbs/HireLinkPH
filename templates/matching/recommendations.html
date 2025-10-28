@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block content %}
+<h3 class="mb-3">Recommended Jobs for You</h3>
+
+<form method="get" class="card p-3 shadow-sm mb-3">
+  <div class="row g-3">
+    <div class="col-md-3">
+      <label class="form-label">City</label>
+      <input class="form-control" name="city" placeholder="e.g., Makati, QC" value="{{ filters.city }}">
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Work setup</label>
+      <select class="form-select" name="setup">
+        <option value="">Any</option>
+        <option value="onsite" {% if filters.setup == "onsite" %}selected{% endif %}>Onsite</option>
+        <option value="hybrid" {% if filters.setup == "hybrid" %}selected{% endif %}>Hybrid</option>
+        <option value="remote" {% if filters.setup == "remote" %}selected{% endif %}>Remote</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Schedule</label>
+      <select class="form-select" name="schedule">
+        <option value="">Any</option>
+        <option value="full-time" {% if filters.schedule == "full-time" %}selected{% endif %}>Full-time</option>
+        <option value="part-time" {% if filters.schedule == "part-time" %}selected{% endif %}>Part-time</option>
+        <option value="shifting" {% if filters.schedule == "shifting" %}selected{% endif %}>Shifting</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Salary min</label>
+      <input class="form-control" name="salary_min" type="number" placeholder="e.g., 25000" value="{{ filters.salary_min }}">
+    </div>
+    <div class="col-md-2">
+      <label class="form-label">Salary max</label>
+      <input class="form-control" name="salary_max" type="number" placeholder="e.g., 80000" value="{{ filters.salary_max }}">
+    </div>
+    <div class="col-md-1 d-grid">
+      <label class="form-label">&nbsp;</label>
+      <button class="btn btn-primary">Filter</button>
+    </div>
+  </div>
+</form>
+
+<p class="text-muted mb-2">
+  Showing {{ page_obj.start_index }}–{{ page_obj.end_index }} of {{ page_obj.paginator.count }} matches
+</p>
+
+<table class="table table-hover bg-white shadow-sm">
+  <thead>
+    <tr>
+      <th style="width:90px;">Fit</th>
+      <th>Job</th>
+      <th>Employer</th>
+      <th>Reasons</th>
+      <th style="width:160px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for score, fb, job in page_obj.object_list %}
+      <tr>
+        <td><span class="badge bg-primary fs-6">{{ score|floatformat:0 }}%</span></td>
+        <td>
+          <a href="{% url 'jobs:job_detail' job.id %}">{{ job.title }}</a>
+          {% if job.closing_date %}<div class="text-muted small">Closes {{ job.closing_date|naturaltime }}</div>{% endif %}
+        </td>
+        <td>{{ job.employer.organization_name }}</td>
+        <td>
+          {% if fb.matched_skills and fb.matched_skills|length > 0 %}
+            <div><strong>Matched skills:</strong> {{ fb.matched_skills|join:", " }}</div>
+          {% endif %}
+          {% if fb.bonuses.salary_alignment %}<div>✓ Salary aligned</div>{% endif %}
+          {% if fb.bonuses.work_setup_match %}<div>✓ Work setup match</div>{% endif %}
+          {% if fb.bonuses.schedule_match %}<div>✓ Schedule match</div>{% endif %}
+        </td>
+        <td class="text-end">
+          {% if job.id in applied_ids %}
+            <a class="btn btn-sm btn-secondary" href="{% url 'jobs:job_detail' job.id %}">Applied</a>
+          {% else %}
+            <a class="btn btn-sm btn-primary" href="{% url 'jobs:apply' job.id %}">Apply</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="5" class="text-muted">No open jobs match your filters.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include "_pagination.html" with page_obj=page_obj %}
+{% endblock %}

@@ -1,16 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-7">
-    <div class="card shadow-sm">
-      <div class="card-body p-4">
-        <h3 class="mb-3">Welcome to HireLinkPH</h3>
-        <p class="text-muted">Select a module to continue:</p>
-        <div class="d-grid gap-2 d-md-block">
-            <a class="btn btn-primary me-2" href="{% url 'accounts:login' %}">Job Seeker / Employer Login</a>
-            <a class="btn btn-outline-secondary me-2" href="{% url 'accounts:register_seeker' %}">Sign up as Seeker</a>
-            <a class="btn btn-outline-secondary" href="{% url 'accounts:register_employer' %}">Sign up as Employer</a>
-        </div>
+<div class="hero p-5 mb-4">
+  <div class="row align-items-center">
+    <div class="col-md-7">
+      <h1 class="fw-bold mb-2" style="color:var(--ink)">Find your next role, faster.</h1>
+      <p class="text-secondary mb-4">AI-assisted matching for Job Seekers and Employers in the Philippines.</p>
+      <div class="d-flex gap-2">
+        <a class="btn btn-primary btn-lg" href="{% url 'accounts:login' %}">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Sign In
+        </a>
+        <a class="btn btn-outline-dark btn-lg" href="{% url 'accounts:register_seeker' %}">
+          <i class="bi bi-person-plus me-1"></i> Sign up as Seeker
+        </a>
+        <a class="btn btn-outline-dark btn-lg" href="{% url 'accounts:register_employer' %}">
+          <i class="bi bi-building-add me-1"></i> Employer
+        </a>
       </div>
     </div>
   </div>

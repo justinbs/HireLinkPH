@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block content %}
 <h3 class="mb-1">{{ job.title }}</h3>
 <p class="text-muted mb-3">{{ job.employer.organization_name }} • {{ job.location_city }}</p>
@@ -11,7 +12,19 @@
         <p style="white-space:pre-wrap">{{ job.description }}</p>
       </div>
     </div>
+
+    {% if user.is_authenticated and user.role == "seeker" %}
+      <div class="mb-3">
+        {% if already_applied %}
+          <button class="btn btn-secondary" disabled>Already applied</button>
+          <a class="btn btn-outline-primary" href="{% url 'jobs:applications' %}">View my applications</a>
+        {% else %}
+          <a class="btn btn-primary" href="{% url 'jobs:apply' job.id %}">Apply</a>
+        {% endif %}
+      </div>
+    {% endif %}
   </div>
+
   <div class="col-md-4">
     <div class="card shadow-sm mb-3">
       <div class="card-body">
@@ -20,7 +33,7 @@
         <div>Schedule: <span class="text-capitalize">{{ job.schedule }}</span></div>
         <div>Salary: {{ job.salary_min }} - {{ job.salary_max }}</div>
         <div>Status: <span class="text-capitalize">{{ job.job_status }}</span></div>
-        <div>Closing: {{ job.closing_date|default:"—" }}</div>
+        <div>Closing: {% if job.closing_date %}{{ job.closing_date|naturaltime }}{% else %}—{% endif %}</div>
       </div>
     </div>
 
