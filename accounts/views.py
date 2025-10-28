@@ -7,7 +7,6 @@ from .models import User
 
 def register_view(request, default_role=None):
     initial = {}
-    # allow ?role=seeker|employer or url kwarg
     role_param = request.GET.get("role") or default_role
     if role_param in {"seeker", "employer", "admin"}:
         initial["role"] = role_param
@@ -15,16 +14,19 @@ def register_view(request, default_role=None):
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            user: User = form.save(commit=False)
+            user = form.save(commit=False)
             user.email = form.cleaned_data["email"]
             user.role = form.cleaned_data["role"]
             user.save()
             messages.success(request, "Account created. You can now sign in.")
             return redirect("accounts:login")
+        else:
+            messages.error(request, "Registration failed. Please review the errors below.")
     else:
         form = RegistrationForm(initial=initial)
 
     return render(request, "accounts/register.html", {"form": form})
+
 
 
 def login_view(request):

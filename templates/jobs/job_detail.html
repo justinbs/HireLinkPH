@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h3 class="mb-1">{{ job.title }}</h3>
+<p class="text-muted mb-3">{{ job.employer.organization_name }} • {{ job.location_city }}</p>
+
+<div class="row">
+  <div class="col-md-8">
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h5>Description</h5>
+        <p style="white-space:pre-wrap">{{ job.description }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card shadow-sm mb-3">
+      <div class="card-body">
+        <h6 class="mb-2">Details</h6>
+        <div>Setup: <span class="text-capitalize">{{ job.work_setup }}</span></div>
+        <div>Schedule: <span class="text-capitalize">{{ job.schedule }}</span></div>
+        <div>Salary: {{ job.salary_min }} - {{ job.salary_max }}</div>
+        <div>Status: <span class="text-capitalize">{{ job.job_status }}</span></div>
+        <div>Closing: {{ job.closing_date|default:"—" }}</div>
+      </div>
+    </div>
+
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h6 class="mb-2">Required Skills</h6>
+        <ul class="mb-0">
+          {% for r in reqs %}<li>{{ r.skill.name }} ({{ r.required_level }})</li>{% empty %}
+            <li class="text-muted">None listed.</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

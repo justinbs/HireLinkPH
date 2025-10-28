@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h3 class="mb-0">My Job Posts</h3>
+  <div>
+    <a class="btn btn-outline-secondary me-2" href="{% url 'jobs:employer_org' %}">Organization</a>
+    <a class="btn btn-primary" href="{% url 'jobs:job_create' %}">New Job</a>
+  </div>
+</div>
+
+<table class="table table-striped bg-white shadow-sm">
+  <thead><tr><th>Title</th><th>Location</th><th>Setup</th><th>Schedule</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+    {% for j in jobs %}
+      <tr>
+        <td><a href="{% url 'jobs:job_detail' j.id %}">{{ j.title }}</a></td>
+        <td>{{ j.location_city }}</td>
+        <td class="text-capitalize">{{ j.work_setup }}</td>
+        <td class="text-capitalize">{{ j.schedule }}</td>
+        <td class="text-capitalize">{{ j.job_status }}</td>
+        <td class="text-nowrap">
+          <a class="btn btn-sm btn-outline-secondary" href="{% url 'jobs:job_skills' j.id %}">Skills</a>
+          <a class="btn btn-sm btn-outline-primary" href="{% url 'jobs:job_edit' j.id %}">Edit</a>
+          <a class="btn btn-sm btn-outline-danger" href="{% url 'jobs:job_delete' j.id %}">Delete</a>
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6" class="text-muted">No jobs yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
