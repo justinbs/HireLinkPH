@@ -86,3 +86,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Use custom user with 'role', 'contact_number', 'city'
 AUTH_USER_MODEL = "accounts.User"
+
+# Auth redirects
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/"
+LOGIN_URL = "accounts:login"
