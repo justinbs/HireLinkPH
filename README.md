@@ -3,7 +3,7 @@ HireLinkPH
 AI-assisted job matching platform for Job Seekers and Employers.
 Built for Application Development & Emerging Technologies.
 
-🧠 Tech Stack
+Tech Stack
 
 Backend: Django 5, Python 3.12
 AI Matching: scikit-learn (TF-IDF + cosine similarity)
@@ -11,7 +11,7 @@ Database: SQLite (default for dev)
 Frontend: Django Templates + Bootstrap 5
 Auth/Roles: Seeker, Employer, Admin (Admin via superuser only)
 
-🚀 Features (Current Sprints)
+Features (Current Sprints)
 Sprint 1
 
 Django foundation
@@ -84,7 +84,7 @@ python manage.py runserver
 
 Visit: http://127.0.0.1:8000/
 
-🧭 How to Use
+How to Use
 Job Seeker (Happy Path)
 
 Click Create an Account → choose Job Seeker.
@@ -111,7 +111,7 @@ Visit /admin/
 
 Log in with the superuser created above.
 
-🔗 Useful URLs
+Useful URLs
 Purpose	URL
 Home	/
 Login	/accounts/login/
@@ -122,7 +122,7 @@ Recommendations	/matching/recommendations/
 Employer Organization	/jobs/employer/
 Employer Job List	/jobs/employer/jobs/
 Admin	/admin/
-🧩 Configuration (Optional for Dev)
+Configuration (Optional for Dev)
 
 Using SQLite by default — no .env required.
 If needed, you can define:
@@ -138,7 +138,7 @@ Add a .env file.
 
 Load via python-dotenv (optional).
 
-🧰 Common Issues & Fixes
+Common Issues & Fixes
 
 Can’t activate venv on Windows
 
@@ -162,7 +162,7 @@ git add -A
 git commit -m "msg"
 git push -u origin HEAD
 
-🧑‍💻 Dev Notes
+Notes
 
 Branching: work on main for now (sprints committed sequentially).
 
