@@ -49,7 +49,7 @@ Public registration only for Seeker/Employer
 
 In your Terminal,
 
-git clone https://github.com/justinbs/HireLinkPH.git
+#### git clone https://github.com/justinbs/HireLinkPH.git
 
 cd HireLinkPH
 
@@ -58,9 +58,9 @@ cd HireLinkPH
 
 In your terminal,
 
-python -m venv .venv
+#### python -m venv .venv
 
-.\.venv\Scripts\Activate
+#### .\.venv\Scripts\Activate
  - If you see an execution policy error:
     - Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
@@ -69,28 +69,28 @@ python -m venv .venv
 
 In your terminal with venv activated,
 
-pip install -r requirements.txt
+#### pip install -r requirements.txt
 
 
 **4)** Migrate DB
 
 In the same terminal,
 
-python manage.py Migrate
+#### python manage.py Migrate
 
 
 **5)** Create an admin (superuser)
 
 In the same terminal, 
 
-python manage.py createsuperuser
+#### python manage.py createsuperuser
 
 
 **6)** Run
 
 In the same terminal, 
 
-python manage.py runserver
+#### python manage.py runserver
 
 #### http://127.0.0.1:8000/
 #### http://127.0.0.1:8000/admin
