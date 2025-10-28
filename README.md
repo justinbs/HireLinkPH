@@ -1,37 +1,22 @@
-HireLinkPH
 
-AI-assisted job matching platform for Job Seekers and Employers.
-Built for Application Development & Emerging Technologies.
+# HireLinkPH
 
-Tech Stack
+AI-assisted job matching platform for Job Seekers and Employers. Built for Application Development & Emerging Technologies.
 
-Backend: Django 5, Python 3.12
-AI Matching: scikit-learn (TF-IDF + cosine similarity)
-Database: SQLite (default for dev)
-Frontend: Django Templates + Bootstrap 5
-Auth/Roles: Seeker, Employer, Admin (Admin via superuser only)
 
-Features (Current Sprints)
-Sprint 1
+## Features
 
-Django foundation
+Sprint 1: Django foundation, models from ERD, admin wiring
 
-Models from ERD
+Sprint 2: Register / login / logout + role-based landing pages
 
-Admin wiring
+Sprint 3:
 
-Sprint 2
+Seeker: profile & skills management
 
-Register / Login / Logout
+Employer: organization profile + Job CRUD
 
-Role-based landing pages
-
-Sprint 3
-
-Seeker: Profile & skills management
-Employer: Organization profile + Job CRUD
-
-Sprint 4
+Sprint 4:
 
 AI recommendations for seekers (ranked with % fit + reasons)
 
@@ -39,147 +24,125 @@ Pagination for long lists, humanized dates
 
 Polished UI, toasts, role-aware navbar brand redirect
 
-Public registration for Seeker/Employer only
+Public registration only for Seeker/Employer
 
-⚙️ Quick Start
-0) Prerequisites
 
-Python 3.12 (recommended)
+## Tech Stack
 
-Git
+**Backend:** Django 5, Python 3.12
 
-1. Clone the Repository
+**AI Matching:** scikit-learn (TF-IDF + cosine similarity)
+
+**DB:** SQLite
+
+**Frontend:** Django templates + Bootstrap 5
+
+**Auth/Roles:** Seeker, Employer, Admin (admin via superuser only)
+## Quick Start
+
+**0)** Prerequisites
+- Python 3.12
+- Git
+
+**1)** Clone
+In your Terminal,
+
 git clone https://github.com/justinbs/HireLinkPH.git
+
 cd HireLinkPH
 
-2. Create & Activate Virtual Environment
-Windows (PowerShell)
+
+**2)** Create & activate 
+In your terminal,
+
 python -m venv .venv
-.venv\Scripts\Activate
+
+.\.venv\Scripts\Activate
+ - If you see an execution policy error:
+    - Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 
 
-If you see an execution policy error:
+**3)** Install dependencies
+In your terminal with venv activated,
 
-Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-
-macOS / Linux
-python3 -m venv .venv
-source .venv/bin/activate
-
-3. Install Dependencies
 pip install -r requirements.txt
 
-4. Migrate Database
-python manage.py migrate
 
-5. Create Superuser
+**4)** Migrate DB
+In the same terminal,
+
+python manage.py Migrate
+
+
+**5)** Create an admin (superuser)
+In the same terminal, 
 python manage.py createsuperuser
 
 
-(Choose username/email/password)
-
-6. Run Server
+*6)** Run
+In the same terminal,
 python manage.py runserver
 
+#### http://127.0.0.1:8000/
+#### http://127.0.0.1:8000/admin
+## Demo
+#### Job Seeker
+1) Click Create an Account → choose Job Seeker.
 
-Visit: http://127.0.0.1:8000/
+2) Fill Profile and add Skills.
 
-How to Use
-Job Seeker (Happy Path)
+3) Open Recommended Jobs (navbar or home CTA).
 
-Click Create an Account → choose Job Seeker.
+4) Filter by city/setup/schedule/salary as needed; click Apply.
 
-Fill out profile and add skills.
+#### Employer
+1) Create an Account → choose Employer.
 
-Open Recommended Jobs (via navbar or home CTA).
+2) Set up Organization.
 
-Filter by city, setup, schedule, or salary.
+3) Create Job Posts; manage skills, view Candidates.
 
-Click Apply.
+#### Admin
+Visit /admin/ and log in with the superuser created above.
+## URLs
+Home: /
 
-Employer
+Login: /accounts/login/
 
-Create an Account → choose Employer.
+Register: /accounts/register/ (?role=seeker or ?role=employer supported)
 
-Set up Organization.
+Seeker profile: /profiles/me/
 
-Create Job Posts, manage skills, view candidates.
+Seeker skills: /profiles/skills/
 
-Admin
+Recommendations: /matching/recommendations/
 
-Visit /admin/
+Employer org: /jobs/employer/
 
-Log in with the superuser created above.
+Employer job list: /jobs/employer/jobs/
 
-Useful URLs
-Purpose	URL
-Home	/
-Login	/accounts/login/
-Register	/accounts/register/ (?role=seeker or ?role=employer)
-Seeker Profile	/profiles/me/
-Seeker Skills	/profiles/skills/
-Recommendations	/matching/recommendations/
-Employer Organization	/jobs/employer/
-Employer Job List	/jobs/employer/jobs/
-Admin	/admin/
-Configuration (Optional for Dev)
+Admin: /admin/
+## Configuration
+Environment variables (optional for dev)
 
-Using SQLite by default — no .env required.
-If needed, you can define:
+Using SQLite by default — no .env required. If you want to set values:
 
-SECRET_KEY=<your_secret_key>
-DEBUG=True
-ALLOWED_HOSTS=*
+SECRET_KEY (else Django’s dev key is used)
 
+DEBUG (True by default in dev)
 
-To use .env:
-
-Add a .env file.
-
-Load via python-dotenv (optional).
-
-Common Issues & Fixes
-
-Can’t activate venv on Windows
+ALLOWED_HOSTS (for deployment)
+## Common Issues & Fixes
+#### Can’t activate venv on Windows
 
 Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
-.venv\Scripts\Activate
 
+Re-run: .\.venv\Scripts\Activate
 
-ModuleNotFoundError: sklearn
+#### ModuleNotFoundError: sklearn
 
-pip install scikit-learn
-# or
-pip install -r requirements.txt
+pip install scikit-learn or pip install -r requirements.txt
 
+#### Template not found (e.g., accounts/register.html)
 
-Template not found (e.g. accounts/register.html)
-→ Ensure you pulled the latest main branch and are running from the project root.
-
-Git shows “Everything up-to-date” but no changes on GitHub
-
-git add -A
-git commit -m "msg"
-git push -u origin HEAD
-
-Notes
-
-Branching: work on main for now (sprints committed sequentially).
-
-Commit style:
-
-Sprint X: Short title
-
-
-Add a detailed body if needed:
-
-git commit -m "Subject" -m "Long description..."
-
-
-Static files:
-Whitenoise serves static in dev; no extra setup required.
-
-
-License / Use
-
-Academic project for Mapúa University coursework.
+Ensure you pulled the latest main and you’re running from the project root.
