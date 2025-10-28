@@ -41,10 +41,12 @@ Public registration only for Seeker/Employer
 ## Quick Start
 
 **0)** Prerequisites
+
 - Python 3.12
 - Git
 
 **1)** Clone
+
 In your Terminal,
 
 git clone https://github.com/justinbs/HireLinkPH.git
@@ -53,6 +55,7 @@ cd HireLinkPH
 
 
 **2)** Create & activate 
+
 In your terminal,
 
 python -m venv .venv
@@ -63,24 +66,28 @@ python -m venv .venv
 
 
 **3)** Install dependencies
+
 In your terminal with venv activated,
 
 pip install -r requirements.txt
 
 
 **4)** Migrate DB
+
 In the same terminal,
 
 python manage.py Migrate
 
 
 **5)** Create an admin (superuser)
+
 In the same terminal, 
 
 python manage.py createsuperuser
 
 
 **6)** Run
+
 In the same terminal, 
 
 python manage.py runserver
